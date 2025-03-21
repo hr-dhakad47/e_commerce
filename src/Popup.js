@@ -7,35 +7,33 @@ function Popup() {
 
     const { productId } = useParams();
 
-    const [msg, setMsg] = useState({});
-    const [id, setId] = useState("");
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [discountPercentage, setDiscountPercentage] = useState("");
-    const [rating, setRating] = useState("");
-    const [stock, setStock] = useState("");
-    const [brand, setBrand] = useState("");
-    const [category, setCategory] = useState("");
-    const [thumbnail, setThumbnail] = useState("");
+  const [msg, setMsg] = useState([]);
+  const [id, setId] = useState("");
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [image, setImage] = useState("");
+  // const [rating, setRating] = useState("");
+  const [rate, setRate] = useState("");
+  const [count, setCount] = useState("");
 
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get(`http://localhost:3001/productsList/${productId}`);
+          const response = await axios.get(`https://e-commerce-node-black.vercel.app/productsList/${productId}`);
           setMsg(response.data);
           setId(response.data.id || "");  
           setTitle(response.data.title || ""); 
-          setDescription(response.data.description || "");
           setPrice(response.data.price || ""); 
-          setDiscountPercentage(response.data.discountPercentage || ""); 
-          setRating(response.data.rating || ""); 
-          setStock(response.data.stock || ""); 
-          setBrand(response.data.brand || ""); 
+          setDescription(response.data.description || "");
           setCategory(response.data.category || ""); 
-          setThumbnail(response.data.thumbnail || ""); 
-
-
+          setImage(response.data.image || ""); 
+          // setRating(response.data.rating || ""); 
+          setRate(response.data.rate || ""); 
+          setCount(response.data.count || ""); 
+          
+          
         } catch (error) {
           console.log(error);
         }
@@ -45,8 +43,8 @@ function Popup() {
     }, [productId]); 
       
       const handleUpdate = async () => {
+        await axios.put(`https://e-commerce-node-black.vercel.app/updateProduct/${productId}`,{id , title,   price, description, category, image, rate, count });
         try {
-          await axios.put(`http://localhost:3001/updateProduct/${productId}`,{id , title, description ,price, discountPercentage, rating, stock, brand, category, thumbnail});
           window.location.reload();
         } catch (error) {
           console.error('Product updation failed:', error);
@@ -56,16 +54,15 @@ function Popup() {
   return (
     <div className='z-3 w-100 position-absolute top-50 start-50 translate-middle border shadow-lg  p-4 rounded-3 bg-black bg-gradient'>
     <div className="input-group mb-3">
-          <input type="text" value={id} onChange={(e) => setId(e.target.value)} className="form-control m-1 floatingInput"  placeholder="id"/>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="form-control m-1 floatingInput"  placeholder="title"/>
-          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} className="form-control m-1 floatingInput"  placeholder="description"/>
-          <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} className="form-control m-1 floatingInput"  placeholder="price"/>
-          <input type="text" value={discountPercentage} onChange={(e) => setDiscountPercentage(e.target.value)} className="form-control m-1 floatingInput"  placeholder="discountPercentage"/>
-          <input type="text" value={rating} onChange={(e) => setRating(e.target.value)} className="form-control m-1 floatingInput"  placeholder="rating"/>
-          <input type="text" value={stock} onChange={(e) => setStock(e.target.value)} className="form-control m-1 floatingInput"  placeholder="stock"/>
-          <input type="text" value={brand} onChange={(e) => setBrand(e.target.value)} className="form-control m-1 floatingInput"  placeholder="brand"/>
-          <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} className="form-control m-1 floatingInput"  placeholder="category"/>
-          <input type="text" value={thumbnail} onChange={(e) => setThumbnail(e.target.value)} className="form-control m-1 floatingInput"  placeholder="thumbnail"/>
+    <input type="text" value={id} onChange={(e) => setId(e.target.value)} className="form-control floatingInput"  placeholder="id"/>
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="form-control floatingInput"  placeholder="title"/>
+          <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} className="form-control floatingInput"  placeholder="price"/>
+          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} className="form-control floatingInput"  placeholder="description"/>
+          <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} className="form-control floatingInput"  placeholder="category"/>
+          {/* <input type="text" value={rating} onChange={(e) => setRating(e.target.value)} className="form-control floatingInput"  placeholder="rating"/> */}
+          <input type="text" value={image} onChange={(e) => setImage(e.target.value)} className="form-control floatingInput"  placeholder="image"/>
+          <input type="text" value={rate} onChange={(e) => setRate(e.target.value)} className="form-control floatingInput"  placeholder="rate"/>
+          <input type="text" value={count} onChange={(e) => setCount(e.target.value)} className="form-control floatingInput"  placeholder="count"/>
       </div>
       <div className='d-flex justify-content-end'>
           <Link to="/">
