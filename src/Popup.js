@@ -7,7 +7,7 @@ function Popup() {
 
     const { productId } = useParams();
 
-  const [msg, setMsg] = useState([]);
+  // const [msg, setMsg] = useState([]);
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -22,7 +22,7 @@ function Popup() {
       const fetchData = async () => {
         try {
           const response = await axios.get(`https://e-commerce-node-black.vercel.app/productsList/${productId}`);
-          setMsg(response.data);
+          // setMsg(response.data);
           setId(response.data.id || "");  
           setTitle(response.data.title || ""); 
           setPrice(response.data.price || ""); 
